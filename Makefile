@@ -21,5 +21,8 @@ output: *.o
 ./King.o: ./Client/King.cpp
 	g++ -I src/include -c ./Client/King.cpp -o King.o
 
+./Rook.o: ./Client/Rook.cpp
+	g++ -I src/include -c ./Client/Rook.cpp -o Rook.o
+
 run:
 	./game.exe

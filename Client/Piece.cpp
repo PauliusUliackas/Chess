@@ -48,7 +48,7 @@ bool Piece::isInCheck(Piece* [8][8])
     return false;
 }
 
-void Piece::addPossibleMove(Piece* board[8][8], sf::Vector2i nextMove)
+void Piece::addPossibleMove(Piece* board[8][8], sf::Vector2i nextMove, bool attacked)
 {
     if(nextMove.x < 0 || nextMove.x > 7 || nextMove.y < 0 || nextMove.y > 7) 
     {
@@ -59,19 +59,12 @@ void Piece::addPossibleMove(Piece* board[8][8], sf::Vector2i nextMove)
     Piece* p = board[nextMove.y][nextMove.x];
     if(p != nullptr && p->isWhite() == colour) return;
 
-    Piece* cloneBoard[8][8];
+    if(attacked) AttackedSquares.push_back(nextMove);
+    else nextMoves.push_back(nextMove);
+}
 
-    for(int i = 0; i < 8; i++)
-    {
-        for(int j = 0; j < 8; j++)
-        {
-            cloneBoard[i][j] = board[i][j];
-        }
-    }
-
-    cloneBoard[nextMove.y][nextMove.x] = cloneBoard[position.y][position.x];
-    cloneBoard[position.y][position.x] = nullptr;
-
+void Piece::invalidMove(Piece* cloneBoard[8][8], sf::Vector2i move)
+{
     bool isInCheck = false;
 
     for(int y = 0; y < 8; y++)
@@ -86,8 +79,28 @@ void Piece::addPossibleMove(Piece* board[8][8], sf::Vector2i nextMove)
             }
         }
     }
+
+    if(!isInCheck) return;
+
+    for(int i = 0; i < nextMoves.size(); i++)
+    {
+        if(move == nextMoves[i]) nextMoves.erase(nextMoves.begin() + i);
+    }
     
-    if(!isInCheck) nextMoves.push_back(nextMove);
+}
+
+void Piece::cloneBoard(Piece* board[8][8], sf::Vector2i nextMove, Piece* cloneBoard[8][8])
+{
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            cloneBoard[i][j] = board[i][j];
+        }
+    }
+
+    cloneBoard[nextMove.y][nextMove.x] = cloneBoard[position.y][position.x];
+    cloneBoard[position.y][position.x] = nullptr;
 }
 
 void Piece::move(sf::Vector2i postion)
@@ -129,4 +142,10 @@ void Piece::drawBoard(Piece* board[8][8])
 void Piece::clearMoves()
 {
     nextMoves.clear();
+    AttackedSquares.clear();
+}
+
+std::vector<sf::Vector2i> Piece::getAttackSquares()
+{
+    return AttackedSquares;
 }

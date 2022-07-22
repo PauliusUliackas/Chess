@@ -2,6 +2,7 @@
 
 #include "Piece.hpp"
 #include "King.hpp"
+#include "Rook.hpp"
 
 class State
 {

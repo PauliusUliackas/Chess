@@ -14,14 +14,14 @@ void King::calculatePossibleMoves(Piece* board[8][8])
 {
     //nextMoves.clear();
     //std::cout<<"VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV"<<std::endl;
-    addPossibleMove(board, sf::Vector2i(position.x-1,position.y));
-    addPossibleMove(board, sf::Vector2i(position.x+1,position.y));
-    addPossibleMove(board, sf::Vector2i(position.x,position.y-1));
-    addPossibleMove(board, sf::Vector2i(position.x,position.y+1));
-    addPossibleMove(board, sf::Vector2i(position.x-1,position.y-1));
-    addPossibleMove(board, sf::Vector2i(position.x-1,position.y+1));
-    addPossibleMove(board, sf::Vector2i(position.x+1,position.y-1));
-    addPossibleMove(board, sf::Vector2i(position.x+1,position.y+1));
+    addPossibleMove(board, sf::Vector2i(position.x-1,position.y), false);
+    addPossibleMove(board, sf::Vector2i(position.x+1,position.y), false);
+    addPossibleMove(board, sf::Vector2i(position.x,position.y-1), false);
+    addPossibleMove(board, sf::Vector2i(position.x,position.y+1), false);
+    addPossibleMove(board, sf::Vector2i(position.x-1,position.y-1), false);
+    addPossibleMove(board, sf::Vector2i(position.x-1,position.y+1), false);
+    addPossibleMove(board, sf::Vector2i(position.x+1,position.y-1), false);
+    addPossibleMove(board, sf::Vector2i(position.x+1,position.y+1), false);
     
 }
 
@@ -57,7 +57,7 @@ bool King::isInCheck(Piece* board[8][8])
             if(board[y][x] != nullptr && board[y][x]->isWhite() != colour)
             {
                 // Maybe Possible moves are poorly calculated. Try printing them. Or draw Everyone's Possible Moves
-                for(sf::Vector2i move: board[y][x]->getPossibleMoves())
+                for(sf::Vector2i move: board[y][x]->getAttackSquares())
                 {
                     if(move.x == X && move.y == Y) return true;
                 }
@@ -68,4 +68,16 @@ bool King::isInCheck(Piece* board[8][8])
     // if Possible move contains king's tile return true.
 
     return false;
+}
+
+void King::calculateAttackedSquares(Piece* board[8][8])
+{
+    addPossibleMove(board, sf::Vector2i(position.x-1,position.y), true);
+    addPossibleMove(board, sf::Vector2i(position.x+1,position.y), true);
+    addPossibleMove(board, sf::Vector2i(position.x,position.y-1), true);
+    addPossibleMove(board, sf::Vector2i(position.x,position.y+1), true);
+    addPossibleMove(board, sf::Vector2i(position.x-1,position.y-1), true);
+    addPossibleMove(board, sf::Vector2i(position.x-1,position.y+1), true);
+    addPossibleMove(board, sf::Vector2i(position.x+1,position.y-1), true);
+    addPossibleMove(board, sf::Vector2i(position.x+1,position.y+1), true);
 }

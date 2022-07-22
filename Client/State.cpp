@@ -14,6 +14,18 @@ State::State()
     board[0][4]->setPosition(4, 0);
     board[7][4] = new King(true);
     board[7][4]->setPosition(4,7);
+    
+    board[0][0] = new Rook(false);
+    board[0][0]->setPosition(0,0);
+    board[0][7] = new Rook(false);
+    board[0][7]->setPosition(7,0);
+
+    board[7][0] = new Rook(true);
+    board[7][0]->setPosition(0,7);
+    board[7][7] = new Rook(true);
+    board[7][7]->setPosition(7,7);
+    
+
     calculatePossibleMoves(true);
 }
 
@@ -153,14 +165,33 @@ void State::calculatePossibleMoves(bool whiteTurn)
             {
                 //p->calculatePossibleMoves(board);
                 p->clearMoves();
-                if(p->isWhite() == whiteTurn) friendly.push_back(p);
+                if(p->isWhite() == whiteTurn) friendly.push_back(p); // f.calculate possible moves
                 else enemy.push_back(p);
             }
         }
     }
 
-    for(Piece* e : enemy) e->calculatePossibleMoves(board);
+    // Calculate possible moves
+    // For each move calculate attacked squares
+
+    // If King in Check remove that possible Move
+
+    //for(Piece* e : enemy) e->calculateAttackedSquares(board);
     for(Piece* f: friendly) f->calculatePossibleMoves(board);
+
+    for(Piece* f: friendly)
+    {
+        std::vector<sf::Vector2i> pMoves = f->getPossibleMoves();
+        for(sf::Vector2i move: pMoves)
+        {
+            Piece* cb[8][8];
+            f->cloneBoard(board, move, cb);
+            for(Piece* e: enemy) e->clearMoves();
+            for(Piece* e: enemy) e->calculateAttackedSquares(cb);
+            for(Piece* f: friendly) f->invalidMove(cb, move);
+        }
+    }
+    //for(Piece* f: enemy) f->invalidMoves(board);
 }
 
 State::~State()

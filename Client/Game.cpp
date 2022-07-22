@@ -30,14 +30,14 @@ void Game::run()
         }
         g->clear();
         history[history.size()-1].render(g, isPlayerWhite);
-
+        /*
         for(int i = 0; i < 8; i++)
         {
             for(int j = 0; j < 8 ; j++)
             {
                 drawMoves(history[history.size()-1].getTile(j,i), sf::Color::Red);
             }
-        }
+        }*/
         drawMoves(selected, sf::Color::Green);
 
         g->display();
@@ -71,7 +71,11 @@ void Game::handleClicking()
             if(move == pos) isInPossibleMoves = true;
         }
 
-        if(!isInPossibleMoves) return;
+        if(!isInPossibleMoves)
+        {
+            selected = nullptr;
+            return;
+        }
 
         State newState = State(history[history.size()-1], selected->getPosition(), pos);
         
