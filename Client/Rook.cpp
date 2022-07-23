@@ -3,7 +3,7 @@
 
 Rook::Rook(bool isWhite) : Piece(isWhite, "Rook", 5)
 {
-    type = TYPE::Rook;
+    type = TYPE::ROOK;
     moved = false;
 }
 

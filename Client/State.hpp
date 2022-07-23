@@ -18,6 +18,7 @@ public:
     Piece* getTile(int, int);
     int getWorth(bool);
     void calculatePossibleMoves(bool);
+    bool isMate(bool);
     
 private:
     void render(sf::RenderWindow*, int, int, int, int);

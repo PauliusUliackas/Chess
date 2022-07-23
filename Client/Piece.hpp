@@ -13,7 +13,7 @@ public:
         Pawn,
         Queen,
         King,
-        Rook,
+        ROOK,
         Knight,
         Bishop
     };

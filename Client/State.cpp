@@ -45,7 +45,34 @@ State::State(State prev, sf::Vector2i from, sf::Vector2i to)
     //delete board[to.y][to.x];
     board[to.y][to.x] = board[from.y][from.x];
     board[from.y][from.x] = nullptr;
-    board[to.y][to.x]->move(to);
+    Piece* p = board[to.y][to.x];
+    p->move(to);
+    if(p->isType(Piece::TYPE::King))
+    {
+        King* king = (King*) p;
+        if(from.x - to.x > 1)
+        {
+            std::cout<<"<<<<<<<"<<std::endl;
+            king->doCastle(false);
+            int y = 0;
+            if(king->isWhite()) y = 7;
+
+            board[y][3] = board[y][0];
+            board[y][0] = nullptr;
+
+        }
+        else if (from.x - to.x < -1)
+        {
+            std::cout<<">>>>>>>"<<std::endl;
+            king->doCastle(true);
+            int y= 0;
+            if(king->isWhite()) y = 7;
+
+            board[y][5] = board[y][7];
+            board[y][7] = nullptr;
+
+        }
+    }
     //board[to.y][to.x]->setPosition(to.x, to.y);
     bool didWhiteMove = board[to.y][to.x]->isWhite();
 
@@ -165,7 +192,11 @@ void State::calculatePossibleMoves(bool whiteTurn)
             {
                 //p->calculatePossibleMoves(board);
                 p->clearMoves();
-                if(p->isWhite() == whiteTurn) friendly.push_back(p); // f.calculate possible moves
+                if(p->isWhite() == whiteTurn)
+                {
+                    p->calculatePossibleMoves(board);
+                    friendly.push_back(p); // f.calculate possible moves
+                }
                 else enemy.push_back(p);
             }
         }
@@ -177,7 +208,7 @@ void State::calculatePossibleMoves(bool whiteTurn)
     // If King in Check remove that possible Move
 
     //for(Piece* e : enemy) e->calculateAttackedSquares(board);
-    for(Piece* f: friendly) f->calculatePossibleMoves(board);
+    //for(Piece* f: friendly) f->calculatePossibleMoves(board);
 
     for(Piece* f: friendly)
     {
@@ -186,9 +217,12 @@ void State::calculatePossibleMoves(bool whiteTurn)
         {
             Piece* cb[8][8];
             f->cloneBoard(board, move, cb);
-            for(Piece* e: enemy) e->clearMoves();
-            for(Piece* e: enemy) e->calculateAttackedSquares(cb);
-            for(Piece* f: friendly) f->invalidMove(cb, move);
+            for(Piece* e: enemy) 
+            {
+                e->clearMoves();
+                e->calculateAttackedSquares(cb);
+            }
+            f->invalidMove(cb, move);
         }
     }
     //for(Piece* f: enemy) f->invalidMoves(board);
@@ -196,4 +230,9 @@ void State::calculatePossibleMoves(bool whiteTurn)
 
 State::~State()
 {
+}
+
+bool State::isMate(bool white)
+{
+    return possibleMoves(white) == 0;
 }
