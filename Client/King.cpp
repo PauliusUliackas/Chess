@@ -41,12 +41,12 @@ void King::calculatePossibleMoves(Piece* board[8][8])
                     if(!rook->didMove())
                     {
                         addPossibleMove(board, sf::Vector2i(x+2, y), false);
-                        castle[1] = rook;
+                        castle[0] = rook;
                     }
                 }
                 else 
                 {
-                    castle[1] = nullptr;
+                    castle[0] = nullptr;
                     break;
                 }
             }
@@ -63,12 +63,12 @@ void King::calculatePossibleMoves(Piece* board[8][8])
                     if(!rook->didMove())
                     {
                         addPossibleMove(board,sf::Vector2i(x-2, y),false);
-                        castle[0] = rook;
+                        castle[1] = rook;
                     }
                 }
                 else
                 {
-                    castle[0] = nullptr;
+                    castle[1] = nullptr;
                     break;
                 }
             }
@@ -136,7 +136,6 @@ void King::calculateAttackedSquares(Piece* board[8][8])
 
 void King::doCastle(bool left)
 {
-    std::cout<<"Oi"<<std::endl;
     if(left) castle[0]->setPosition(position.x - 1, position.y);
     else     castle[1]->setPosition(position.x + 1, position.y);
 }
