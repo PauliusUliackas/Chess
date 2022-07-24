@@ -35,7 +35,7 @@ void King::calculatePossibleMoves(Piece* board[8][8])
             Piece* next = board[y][i];
             if(next != nullptr)
             {
-                if(next->isType(TYPE::ROOK))
+                if(next->isType(TYPE::ROOK) && !isInCheck(board))
                 {
                     Rook* rook = (Rook*) next;
                     if(!rook->didMove())
@@ -57,7 +57,7 @@ void King::calculatePossibleMoves(Piece* board[8][8])
             Piece* next = board[y][i];
             if(next != nullptr)
             {
-                if(next->isType(TYPE::ROOK))
+                if(next->isType(TYPE::ROOK) && !isInCheck(board))
                 {
                     Rook* rook = (Rook*) next;
                     if(!rook->didMove())
@@ -109,6 +109,7 @@ bool King::isInCheck(Piece* board[8][8])
             if(board[y][x] != nullptr && board[y][x]->isWhite() != colour)
             {
                 // Maybe Possible moves are poorly calculated. Try printing them. Or draw Everyone's Possible Moves
+                board[y][x]->calculateAttackedSquares(board);
                 for(sf::Vector2i move: board[y][x]->getAttackSquares())
                 {
                     if(move.x == X && move.y == Y) return true;

@@ -24,7 +24,7 @@ State::State()
     board[7][0]->setPosition(0,7);
     board[7][7] = new Rook(true);
     board[7][7]->setPosition(7,7);
-    
+     
     board[0][1] = new Knight(false);
     board[0][1]->setPosition(1,0);
     board[0][6] = new Knight(false);
@@ -34,7 +34,7 @@ State::State()
     board[7][1]->setPosition(1,7);
     board[7][6] = new Knight(true);
     board[7][6]->setPosition(6,7);
-
+    
     calculatePossibleMoves(true);
 }
 
@@ -61,7 +61,6 @@ State::State(State prev, sf::Vector2i from, sf::Vector2i to)
         King* king = (King*) p;
         if(from.x - to.x > 1)
         {
-            std::cout<<"<<<<<<<"<<std::endl;
             king->doCastle(false);
             int y = 0;
             if(king->isWhite()) y = 7;
@@ -72,7 +71,6 @@ State::State(State prev, sf::Vector2i from, sf::Vector2i to)
         }
         else if (from.x - to.x < -1)
         {
-            std::cout<<">>>>>>>"<<std::endl;
             king->doCastle(true);
             int y= 0;
             if(king->isWhite()) y = 7;
@@ -186,9 +184,6 @@ void State::render(sf::RenderWindow* g, int i, int j, int x, int y)
 
 void State::calculatePossibleMoves(bool whiteTurn)
 {
-
-    std::cout<<"Calculating"<<std::endl;
-
     std::vector<Piece*> friendly, enemy;
 
 
