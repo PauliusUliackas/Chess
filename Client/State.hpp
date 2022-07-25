@@ -6,6 +6,7 @@
 #include "Rook.hpp"
 #include "Knight.hpp"
 #include "Queen.hpp"
+#include "Pawn.hpp"
 
 class State
 {

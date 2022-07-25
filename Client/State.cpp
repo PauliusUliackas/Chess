@@ -49,12 +49,23 @@ State::State()
     board[7][2]->setPosition(2,7);
     board[7][5] = new Bishop(true);
     board[7][5]->setPosition(5,7);
+
+    for(int i = 0; i < 8; i++)
+    {
+        board[1][i] = new Pawn(false);
+        board[1][i]->setPosition(i, 1);
+        board[6][i] = new Pawn(true);
+        board[6][i]->setPosition(i, 6);
+    }
     
     calculatePossibleMoves(true);
 }
 
 State::State(State prev, sf::Vector2i from, sf::Vector2i to)
 {
+
+    std::vector<Pawn*> pawns;
+
     for(int y = 0; y < 8; y++)
     {
         for(int x = 0; x < 8; x++)
@@ -62,7 +73,10 @@ State::State(State prev, sf::Vector2i from, sf::Vector2i to)
             board[y][x] = prev.getTile(x, y);
             
             if(board[y][x] != nullptr)
+            {
                 board[y][x]->setPosition(x, y);
+                if(board[y][x]->isType(Piece::TYPE::Pawn)) pawns.push_back((Pawn*) board[y][x]);
+            }
         }
     }
     // Possible memory leak
@@ -70,7 +84,22 @@ State::State(State prev, sf::Vector2i from, sf::Vector2i to)
     board[to.y][to.x] = board[from.y][from.x];
     board[from.y][from.x] = nullptr;
     Piece* p = board[to.y][to.x];
+    
+    if(p->isType(Piece::TYPE::Pawn) && from.x != to.x)
+    {
+        Piece* pawn = board[from.y][from.x - 1];
+        if(pawn != nullptr && pawn->isType(Piece::TYPE::Pawn) && ((Pawn*) pawn)->isEnPesant()) board[from.y][from.x - 1] = nullptr;
+
+        pawn = board[from.y][from.x + 1];
+        if(pawn != nullptr && pawn->isType(Piece::TYPE::Pawn) && ((Pawn*) pawn)->isEnPesant()) board[from.y][from.x + 1] = nullptr;
+    }
+    for(Pawn* pawn: pawns)
+    {
+        if(pawn->isWhite() == p->isWhite() && pawn->isEnPesant()) pawn->setEnPesant(false);
+    }
+    
     p->move(to);
+
     if(p->isType(Piece::TYPE::King))
     {
         King* king = (King*) p;

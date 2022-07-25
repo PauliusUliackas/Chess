@@ -33,5 +33,8 @@ output: *.o
 ./Queen.o: ./Client/Queen.cpp
 	g++ -I src/include -c ./Client/Queen.cpp -o Queen.o
 
+./Pawn.o: ./Client/Pawn.cpp
+	g++ -I src/include -c ./Client/Pawn.cpp -o Pawn.o
+
 run:
 	./game.exe
