@@ -105,7 +105,7 @@ void Piece::cloneBoard(Piece* board[8][8], sf::Vector2i nextMove, Piece* cloneBo
 
 void Piece::move(sf::Vector2i postion)
 {
-    this->position = position;
+    setPosition(position.x, position.y);
 };
 
 void Piece::setPosition(int x, int y)

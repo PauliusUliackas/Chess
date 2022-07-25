@@ -24,7 +24,7 @@ State::State()
     board[7][0]->setPosition(0,7);
     board[7][7] = new Rook(true);
     board[7][7]->setPosition(7,7);
-     
+    
     board[0][1] = new Knight(false);
     board[0][1]->setPosition(1,0);
     board[0][6] = new Knight(false);
@@ -34,6 +34,16 @@ State::State()
     board[7][1]->setPosition(1,7);
     board[7][6] = new Knight(true);
     board[7][6]->setPosition(6,7);
+
+    board[0][2] = new Bishop(false);
+    board[0][2]->setPosition(2,0);
+    board[0][5] = new Bishop(false);
+    board[0][5]->setPosition(5,7);
+
+    board[7][2] = new Bishop(true);
+    board[7][2]->setPosition(2,7);
+    board[7][5] = new Bishop(true);
+    board[7][5]->setPosition(5,7);
     
     calculatePossibleMoves(true);
 }

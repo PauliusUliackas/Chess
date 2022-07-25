@@ -112,8 +112,13 @@ bool King::isInCheck(Piece* board[8][8])
                 board[y][x]->calculateAttackedSquares(board);
                 for(sf::Vector2i move: board[y][x]->getAttackSquares())
                 {
-                    if(move.x == X && move.y == Y) return true;
+                    if(move.x == X && move.y == Y)
+                    {
+                        board[y][x]->clearMoves();
+                        return true;
+                    }
                 }
+                board[y][x]->clearMoves();
             }
         }
     }

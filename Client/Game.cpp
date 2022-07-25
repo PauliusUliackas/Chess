@@ -35,9 +35,10 @@ void Game::run()
         {
             for(int j = 0; j < 8 ; j++)
             {
-                drawMoves(history[history.size()-1].getTile(j,i), sf::Color::Red);
+                drawAttackedSquares(history[history.size()-1].getTile(j,i));
             }
-        }*/
+        }
+        */
         drawMoves(selected, sf::Color::Green);
 
         g->display();
@@ -90,7 +91,7 @@ void Game::handleClicking()
 void Game::drawMoves(Piece* p, sf::Color c)
 {
     if(p == nullptr) return;
-    if(p->isWhite()) c.r -= 200;
+    //if(p->isWhite()) c.r -= 200;
     for(sf::Vector2i pos: p->getPossibleMoves())
     {
 
@@ -100,12 +101,33 @@ void Game::drawMoves(Piece* p, sf::Color c)
         pos.x += 125;
         pos.y += 125;
 
-        if(p->isWhite()) pos.y -= 20;
+        //if(p->isWhite()) pos.y -= 20;
 
         sf::RectangleShape r(sf::Vector2f(50, 50));
         r.setPosition(pos.x, pos.y);
         
         r.setFillColor(c);
+        g->draw(r);
+    }
+}
+
+void Game::drawAttackedSquares(Piece* p)
+{
+    if(p == nullptr || p->isWhite() == isWhitesTurn) return;
+    
+    for(sf::Vector2i pos: p->getPossibleMoves())
+    {
+
+        pos.x *= 100;
+        pos.y *= 100;
+
+        pos.x += 125;
+        pos.y += 125;
+
+        sf::RectangleShape r(sf::Vector2f(50, 50));
+        r.setPosition(pos.x, pos.y);
+        
+        r.setFillColor(sf::Color::Red);
         g->draw(r);
     }
 }

@@ -9,21 +9,6 @@ Knight::~Knight()
 {
 }
 
-void Knight::calculateAttackedSquares(Piece* board[8][8])
-{
-    int x = position.x;
-    int y = position.y;
-
-    addPossibleMove(board, sf::Vector2i(x+1, y+2), true);
-    addPossibleMove(board, sf::Vector2i(x+2, y+1), true);
-    addPossibleMove(board, sf::Vector2i(x-1, y+2), true);
-    addPossibleMove(board, sf::Vector2i(x-2, y+1), true);
-    addPossibleMove(board, sf::Vector2i(x+1, y-2), true);
-    addPossibleMove(board, sf::Vector2i(x+2, y-1), true);
-    addPossibleMove(board, sf::Vector2i(x-1, y-2), true);
-    addPossibleMove(board, sf::Vector2i(x-2, y-1), true);
-};
-
 void Knight::calculatePossibleMoves(Piece* board[8][8])
 {
     int x = position.x;
@@ -38,3 +23,23 @@ void Knight::calculatePossibleMoves(Piece* board[8][8])
     addPossibleMove(board, sf::Vector2i(x-1, y-2), false);
     addPossibleMove(board, sf::Vector2i(x-2, y-1), false);
 };
+
+void Knight::calculateAttackedSquares(Piece* board[8][8])
+{   
+
+    int x = position.x;
+    int y = position.y;
+    addPossibleMove(board, sf::Vector2i(x+1, y+2), true);
+    addPossibleMove(board, sf::Vector2i(x+2, y+1), true);
+    addPossibleMove(board, sf::Vector2i(x-1, y+2), true);
+    addPossibleMove(board, sf::Vector2i(x-2, y+1), true);
+    addPossibleMove(board, sf::Vector2i(x+1, y-2), true);
+    addPossibleMove(board, sf::Vector2i(x+2, y-1), true);
+    addPossibleMove(board, sf::Vector2i(x-1, y-2), true);
+    addPossibleMove(board, sf::Vector2i(x-2, y-1), true);
+};
+
+void Knight::move(sf::Vector2i to)
+{
+    Piece::setPosition(to.x, to.y);
+}

@@ -20,4 +20,5 @@ public:
 private:
     void handleClicking();
     void drawMoves(Piece*, sf::Color c);
+    void drawAttackedSquares(Piece* p);
 };

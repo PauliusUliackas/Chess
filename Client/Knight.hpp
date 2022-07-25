@@ -11,4 +11,5 @@ public:
     ~Knight();
     void calculatePossibleMoves(Piece* [8][8]);
     void calculateAttackedSquares(Piece* [8][8]);
+    void move(sf::Vector2i);
 };

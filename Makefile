@@ -27,5 +27,8 @@ output: *.o
 ./Knight.o: ./Client/Knight.cpp
 	g++ -I src/include -c ./Client/Knight.cpp -o Knight.o
 
+./Bishop.o: ./Client/Bishop.cpp
+	g++ -I src/include -c ./Client/Bishop.cpp -o Bishop.o
+
 run:
 	./game.exe
