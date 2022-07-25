@@ -14,6 +14,11 @@ State::State()
     board[0][4]->setPosition(4, 0);
     board[7][4] = new King(true);
     board[7][4]->setPosition(4,7);
+
+    board[0][3] = new Queen(false);
+    board[0][3]->setPosition(3, 0);
+    board[7][3] = new Queen(true);
+    board[7][3]->setPosition(3,7);
     
     board[0][0] = new Rook(false);
     board[0][0]->setPosition(0,0);

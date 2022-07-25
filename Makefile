@@ -30,5 +30,8 @@ output: *.o
 ./Bishop.o: ./Client/Bishop.cpp
 	g++ -I src/include -c ./Client/Bishop.cpp -o Bishop.o
 
+./Queen.o: ./Client/Queen.cpp
+	g++ -I src/include -c ./Client/Queen.cpp -o Queen.o
+
 run:
 	./game.exe
